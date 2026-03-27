@@ -48,19 +48,19 @@ struct Tus {
 Tus tuslar[TUS_SAYISI];
 
 void tuslariOlustur() {
-  int sutunW = 34;
+  int sutunW = 34; // TUŞ BOYUTUNUN GENİŞLİĞİ
   int bosluk = 2;
-  int satirY[5] = {38, 94, 150, 206, 262};
-  int satirH    = 54;
+  int satirY[5] = {38, 94, 150, 206, 262};// A,H,O,V,SPACE SATIRLARININ Y KONUMLARININ BAŞLANGICI
+  int satirH    = 54; // TUŞ BOYUTUNUN YÜKSEKLİĞİ
 
   char harfler[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   int idx = 0;
 
   for (int s = 0; s < 7; s++) {
-    tuslar[idx].label[0] = harfler[s];
-    tuslar[idx].label[1] = '\0';
-    tuslar[idx].x = s * sutunW + bosluk;
-    tuslar[idx].y = satirY[0];
+    tuslar[idx].label[0] = harfler[s];// TUŞ BUTON ÜZERİNDEKİ KARAKTER
+    tuslar[idx].label[1] = '\0';//STRİNG SONU
+    tuslar[idx].x = s * sutunW + bosluk;// (S*34+2)
+    tuslar[idx].y = satirY[0];// ABCDEFG SATIRI
     tuslar[idx].w = sutunW - bosluk;
     tuslar[idx].h = satirH - bosluk;
     tuslar[idx].renk = BLUE;
@@ -70,7 +70,7 @@ void tuslariOlustur() {
     tuslar[idx].label[0] = harfler[7 + s];
     tuslar[idx].label[1] = '\0';
     tuslar[idx].x = s * sutunW + bosluk;
-    tuslar[idx].y = satirY[1];
+    tuslar[idx].y = satirY[1];//HIJKLMN SATIRI
     tuslar[idx].w = sutunW - bosluk;
     tuslar[idx].h = satirH - bosluk;
     tuslar[idx].renk = BLUE;
@@ -80,7 +80,7 @@ void tuslariOlustur() {
     tuslar[idx].label[0] = harfler[14 + s];
     tuslar[idx].label[1] = '\0';
     tuslar[idx].x = s * sutunW + bosluk;
-    tuslar[idx].y = satirY[2];
+    tuslar[idx].y = satirY[2];//OPQRSTU
     tuslar[idx].w = sutunW - bosluk;
     tuslar[idx].h = satirH - bosluk;
     tuslar[idx].renk = BLUE;
@@ -90,13 +90,13 @@ void tuslariOlustur() {
     tuslar[idx].label[0] = harfler[21 + s];
     tuslar[idx].label[1] = '\0';
     tuslar[idx].x = s * sutunW + bosluk;
-    tuslar[idx].y = satirY[3];
+    tuslar[idx].y = satirY[3];// VWXYZ SATIRI
     tuslar[idx].w = sutunW - bosluk;
     tuslar[idx].h = satirH - bosluk;
     tuslar[idx].renk = BLUE;
     idx++;
   }
-
+// DELETE BUTONU 
   strcpy(tuslar[idx].label, "DEL");
   tuslar[idx].x = 5 * sutunW + bosluk;
   tuslar[idx].y = satirY[3];
@@ -104,7 +104,7 @@ void tuslariOlustur() {
   tuslar[idx].h = satirH - bosluk;
   tuslar[idx].renk = RED;
   idx++;
-
+// SPACETUŞU 2M
   strcpy(tuslar[idx].label, "SPC");
   tuslar[idx].x = bosluk;
   tuslar[idx].y = satirY[4];
@@ -112,7 +112,7 @@ void tuslariOlustur() {
   tuslar[idx].h = satirH - bosluk;
   tuslar[idx].renk = GRAY;
   idx++;
-
+// ENTER BUTONU
   strcpy(tuslar[idx].label, "ENT");
   tuslar[idx].x = 5 * sutunW + bosluk;
   tuslar[idx].y = satirY[4];
@@ -125,7 +125,7 @@ void tuslariOlustur() {
 // ── Cursor X pozisyonunu hesapla ──────────────────────
 int cursorX() {
   String goster = metin;
-  int maxKar = 14;
+  int maxKar = 17;
   if ((int)goster.length() > maxKar)
     goster = goster.substring(goster.length() - maxKar);
   return 5 + goster.length() * 12;
@@ -146,7 +146,7 @@ void cursorCiz(bool gorunsun) {
     tft.drawFastVLine(kx + 1, 8, 18, 0x2104);
   }
 }
-
+// YAZILAN METİN KUTUSU
 void metinKutuCiz() {
   tft.fillRect(0, 0, 240, 35, 0x2104);
   tft.drawRect(0, 0, 240, 35, CYAN);
@@ -154,7 +154,7 @@ void metinKutuCiz() {
   tft.setTextSize(2);
 
   String goster = metin;
-  int maxKar = 14;
+  int maxKar = 17;
   if ((int)goster.length() > maxKar)
     goster = goster.substring(goster.length() - maxKar);
 
@@ -224,16 +224,19 @@ void loop() {
   // ────────────────────────────────────────────────────
 
   digitalWrite(13, HIGH);
-  TSPoint p = ts.getPoint();
+  TSPoint p = ts.getPoint();// EKRANA TEMAS HALİNDE XY KOORDİNAT NOKTALARINI GETİRMESİ
   digitalWrite(13, LOW);
   pinMode(XM, OUTPUT);
   pinMode(YP, OUTPUT);
 
-  if (p.z > MINPRESSURE && p.z < MAXPRESSURE) {
+  if (p.z > MINPRESSURE && p.z < MAXPRESSURE) {//p.z EKRAN DOKUNMA BASINCI
 
-    int px = map(p.x, TS_MINX, TS_MAXX, 240, 0);  // ters (aynalama düzeltmesi)
-    int py = map(p.y, TS_MINY, TS_MAXY, 0,   320);
-
+    int px = map(p.x, TS_MINX, TS_MAXX, 240, 0);  // X KOORDİNATI
+    int py = map(p.y, TS_MINY, TS_MAXY, 0,   320);// Y KOORDİNATI
+    Serial.print("px: ");
+    Serial.print(px);
+    Serial.print(", py: ");
+    Serial.println(py);
     px = constrain(px, 0, 239);
     py = constrain(py, 0, 319);
 
@@ -243,7 +246,7 @@ void loop() {
           py >= tuslar[i].y &&
           py <= tuslar[i].y + tuslar[i].h) {
 
-        tusCiz(i, true);
+        tusCiz(i, true);// TUŞUN TEMAS OLDUĞUNU GÖSTEREN ANİMASYON
         delay(80);
         tusCiz(i, false);
 
