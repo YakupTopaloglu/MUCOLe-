@@ -281,13 +281,20 @@
     "netclass_assignments": {
       "GND": [
         "12V-",
+        "2SBAT-",
         "5V-"
       ],
       "Net-(C4-Pad1)": [
         "5V+"
       ],
+      "Net-(D8-A)": [
+        "12V+"
+      ],
       "Net-(U2-OUT)": [
         "12V+"
+      ],
+      "unconnected-(D7-A-Pad2)": [
+        "2SBAT+"
       ]
     },
     "netclass_patterns": []
